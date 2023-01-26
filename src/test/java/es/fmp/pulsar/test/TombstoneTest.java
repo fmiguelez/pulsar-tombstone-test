@@ -60,8 +60,7 @@ public class TombstoneTest {
 
 	private static void createTenant() throws PulsarAdminException {
 		if (!adminClient.tenants().getTenants().contains(TENANT)) {
-			TenantInfo ti = new TenantInfo();
-			ti.setAllowedClusters(ImmutableSet.of(CLUSTER));
+			TenantInfo ti = TenantInfo.builder().allowedClusters(ImmutableSet.of(CLUSTER)).build();
 			adminClient.tenants().createTenant(TENANT, ti);
 			logger.info("Tenant created: {}", TENANT);
 		} else {
@@ -190,7 +189,7 @@ public class TombstoneTest {
 		entityGenerator.nextBytes(data);
 
 		/*
-		 * Fails with NullPointerException
+		 * Works with Pulsar >= 2.7.0. Fails with NullPointerException otherwise.
 		 */
 		test(data, true);
 	}
@@ -200,7 +199,7 @@ public class TombstoneTest {
 		DummyObject data = entityGenerator.nextObject(DummyObject.class);
 
 		/*
-		 * Fails with EOFException  
+		 * Fails with EOFException
 		 */
 		test(data, false);
 	}
@@ -210,7 +209,7 @@ public class TombstoneTest {
 		DummyObject data = entityGenerator.nextObject(DummyObject.class);
 
 		/*
-		 * Fails with NullPointerException
+		 * Works with Pulsar >= 2.7.0. Fails with NullPointerException otherwise.
 		 */
 		test(data, true);
 	}

@@ -6,13 +6,15 @@ This project contains unit tests to reproduce the issue with handling `null` val
 
 The solution included a `nullValue` flag inside message metadata used by [MessageIml](https://github.com/apache/pulsar/blob/master/pulsar-client/src/main/java/org/apache/pulsar/client/impl/MessageImpl.java) to indicate the presence of a `null` value in the message to avoid calling Avro parsing code and directly return `null` when calling `Message.getValue()`.  
 
+New [BUG#7407](https://github.com/apache/pulsar/issues/7407) was reported to track the new issue. Solution [PR#7408](https://github.com/apache/pulsar/pull/7408) was provided, but it only fixes sending tombstones when message value is explicitly set to `null`.  
+
 Solution however does not work for two reasons:
-* When trying to read a message with `null` value a `NullPointerException` is thrown in other part of the code 
+* ~~When trying to read a message with `null` value a `NullPointerException` is thrown in other part of the code~~ (now working with versions >= 2.7.0)
 * It should not be required to explicitly indicate a `null` value to producer (only-key values should work just just fine). Exception thrown when working with implicit `null` value messages is `EOFException` in this case
 
 # Run the tests
 
-An Apache Pulsar instance (2.6.0) must be running locally. If Docker Compose is installed on your computer (on Windows/Mac Docker Desktop will do) you can use provided [docker-comopose.yml](src/test/resources/docker-compose.yml) file:
+An Apache Pulsar instance must be running locally. If Docker Compose is installed on your computer (on Windows/Mac Docker Desktop will do) you can use provided [docker-comopose.yml](src/test/resources/docker-compose.yml) file:
 
 ```
 $ cd src/test/resources
