@@ -19,7 +19,7 @@
 		<easy-random.version>4.2.0</easy-random.version>
 		<hamcrest.version>2.2</hamcrest.version>
 		<hamcrest-date.version>2.0.7</hamcrest-date.version>
-		<junit.version>4.12</junit.version>
+		<junit.version>4.13.1</junit.version>
 		<jslt.version>0.1.10</jslt.version>
 		<jooq.version>3.14.16</jooq.version>
 		<pulsar.version>2.8.4</pulsar.version>
